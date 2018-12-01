@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <avr/interrupt.h>
-#include "avr_usart.h"
+#include "lib/avr_usart.h"
 #include "lib/bits.h"
 #include "sensores.h"
 

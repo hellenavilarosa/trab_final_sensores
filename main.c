@@ -8,7 +8,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "avr_usart.h"
+#include "lib/avr_usart.h"
 
 
 int main(){
