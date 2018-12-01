@@ -6,7 +6,10 @@
 #include <stdio.h>
 
 
-
+void sensor_00();
+void sensor_01();
+void sensor_02();
+void sensor_03();
 
 
 #endif

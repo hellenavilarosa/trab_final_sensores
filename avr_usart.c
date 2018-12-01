@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <avr/interrupt.h>
 #include "avr_usart.h"
-#include "bits.h"
+#include "lib/bits.h"
 
 static int usart_putchar(char c, FILE *fp);
 
