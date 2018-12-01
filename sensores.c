@@ -35,6 +35,7 @@ uint8_t get_sensor(uint8_t n_sensor){
 	if(n_sensor<4){
 		return sensores[n_sensor];
 	}
+	return 0xff;
 }
 
 
