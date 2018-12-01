@@ -7,11 +7,15 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 #include "lib/avr_usart.h"
-
+#include "sensores.h"
 
 int main(){
+
+	/* Habilita IRQ global */
+	sei();
 
 	uint8_t x = 0;
 
@@ -24,11 +28,13 @@ int main(){
 
 	/* Mensagem incial: terminal do Proteus
 	 * utiliza final de linha com '\r' */
-	fprintf(debug,"Teste de debug\n\r");
+	fprintf(debug,"Teste de debug\n");
 
 	while (1){
 
-		fprintf(debug, "%d\n\r", x);
+		//fprintf(debug, "%d\n", x);
+		USART_tx(x);
+
 		x++;
 
 		_delay_ms(1000);
