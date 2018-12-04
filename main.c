@@ -28,15 +28,12 @@ int main(){
 	/*INICIALIZAÇAO DO SENSOR*/
 	sensor_init();
 
-	/* Mensagem incial: terminal do Proteus
-	 * utiliza final de linha com '\r' */
+	/* Mensagem incial: terminal do Proteus utiliza final de linha com '\r' */
 	fprintf(debug,"Teste de debug\n");
 
 	while (1){
 		for(i=0; i<4; i++){
-
 			fprintf(debug, "%d:  %d\n", i, get_sensor(i));
-
 		}
 
 		_delay_ms(500);
