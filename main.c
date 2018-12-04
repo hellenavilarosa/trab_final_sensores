@@ -17,7 +17,7 @@ int main(){
 	/* Habilita IRQ global */
 	sei();
 
-	uint8_t x = 0;
+	uint8_t i=0;
 
 	/* Obtem o stream de depuração */
 	FILE *debug = get_usart_stream();
@@ -25,18 +25,20 @@ int main(){
 	/* Inicializa hardware da USART */
 	USART_Init(B9600);
 
+	/*INICIALIZA�AO DO SENSOR*/
+	sensor_init();
 
 	/* Mensagem incial: terminal do Proteus
 	 * utiliza final de linha com '\r' */
 	fprintf(debug,"Teste de debug\n");
 
 	while (1){
+		for(i=0; i<4; i++){
 
-		//fprintf(debug, "%d\n", x);
-		USART_tx(x);
+			fprintf(debug, "%d:  %d\n", i, get_sensor(i));
 
-		x++;
+		}
 
-		_delay_ms(1000);
+		_delay_ms(500);
 	}
 }

@@ -19,15 +19,31 @@ ISR(PCINT1_vect){
 	if(GPIO_PinTstBit(GPIO_C, PC0)){
 		sensores[0] = 1;
 	}
+	else{
+		sensores[0] = 0;
+	}
+
 	if(GPIO_PinTstBit(GPIO_C, PC1)){
 		sensores[1] = 1;
 	}
+	else{
+		sensores[1] = 0;
+	}
+
 	if(GPIO_PinTstBit(GPIO_C, PC2)){
 		sensores[2] = 1;
 	}
+	else{
+		sensores[2] = 0;
+	}
+
 	if(GPIO_PinTstBit(GPIO_C, PC3)){
 		sensores[3] = 1;
 	}
+	else{
+			sensores[3] = 0;
+	}
+
 }
 
 uint8_t get_sensor(uint8_t n_sensor){
