@@ -35,7 +35,7 @@ int main(){
 		for(i=0; i<4; i++){
 			fprintf(debug, "%d:  %d\n", i, get_sensor(i));
 		}
-
+// chamar modbus
 		_delay_ms(500);
 	}
 }

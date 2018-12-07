@@ -1,5 +1,4 @@
-/*
- * modbus.c
+/* modbus.c
  *
  *  Created on: Nov 1, 2018
  *      Author: xtarke
@@ -10,8 +9,6 @@
 #include <stdint.h>
 
 #include "lib/avr_usart.h"
-#include "display/lcd.h"
-
 
 uint16_t CRC16_2(uint8_t *buf, int len)
 {
@@ -35,25 +32,14 @@ uint16_t CRC16_2(uint8_t *buf, int len)
   return crc;
 }
 
-
-
-
-
-int main(){
-	uint8_t pkg[8] = {0x15, 0x01, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00};
-	uint8_t rx_pkg[16],i;
+int modbus(){
+	uint8_t pkg[8] = {0x15, 0x01, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00}; //end, R/W, reg, dados, crc
+	uint8_t rx_pkg[16],i; // resposta do modbus
 	uint16_t data = 0;
 	uint16_t crc;
 
-	FILE *lcd_stream;
-
 	/* Inicializa hardware da USART */
 	USART_Init(B9600);
-
-	lcd_stream = inic_stream();
-
-	inic_LCD_4bits();
-
 
 	while (1){
 		pkg[1] = 0x01;
@@ -95,16 +81,12 @@ int main(){
 
 		_delay_ms(1000);
 
+		//fprintf(,"%d   %d   %d", rx_pkg[5], rx_pkg[7], rx_pkg[9]);
+		//cmd_LCD(0xc0,0);
+		//fprintf(,"%d", rx_pkg[11]);
 
-		fprintf(lcd_stream,"%d   %d   %d", rx_pkg[5], rx_pkg[7], rx_pkg[9]);
-		cmd_LCD(0xc0,0);
-		fprintf(lcd_stream,"%d", rx_pkg[11]);
-
-		cmd_LCD(0x80,0);
-
-
+		//cmd_LCD(0x80,0);
 	}
-
 
 	return 0;
 }
