@@ -7,13 +7,17 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
-#include "avr_usart.h"
-
+#include "lib/avr_usart.h"
+#include "sensores.h"
 
 int main(){
 
-	uint8_t x = 0;
+	/* Habilita IRQ global */
+	sei();
+
+	uint8_t i=0;
 
 	/* Obtem o stream de depuração */
 	FILE *debug = get_usart_stream();
@@ -21,16 +25,17 @@ int main(){
 	/* Inicializa hardware da USART */
 	USART_Init(B9600);
 
+	/*INICIALIZA�AO DO SENSOR*/
+	sensor_init();
 
-	/* Mensagem incial: terminal do Proteus
-	 * utiliza final de linha com '\r' */
-	fprintf(debug,"Teste de debug\n\r");
+	/* Mensagem incial: terminal do Proteus utiliza final de linha com '\r' */
+	fprintf(debug,"Teste de debug\n");
 
 	while (1){
+		for(i=0; i<4; i++){
+			fprintf(debug, "%d:  %d\n", i, get_sensor(i));
+		}
 
-		fprintf(debug, "%d\n\r", x);
-		x++;
-
-		_delay_ms(1000);
+		_delay_ms(500);
 	}
 }
