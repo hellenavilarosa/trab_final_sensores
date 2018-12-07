@@ -53,8 +53,3 @@ uint8_t get_sensor(uint8_t n_sensor){
 	}
 	return 0xff;
 }
-
-
-
-
-
