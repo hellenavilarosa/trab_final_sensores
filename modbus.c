@@ -103,7 +103,7 @@ uint8_t modbus(uint8_t dados_s0,uint8_t dados_s1,uint8_t dados_s2,uint8_t dados_
 //QUARTO PACOTE (s3)
 	//big_endian
 	//big_endian
-	pkg_sensores[3] =0x05;
+	pkg_sensores[3] =0x08;
 	pkg_sensores[4] = dados_s3 >> 8;
 	pkg_sensores[5] = dados_s3 & 0xff;
 
