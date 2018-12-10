@@ -1,15 +1,17 @@
-#ifndef _RINGBUFFER_H
-#define _RINGBUFFER_H
+#ifndef RINGBUFFER_H_
+#define RINGBUFFER_H_
 
 #include <stdint.h>
 #include <avr/io.h>
 #include <stdio.h>
 
-void init(t_ringbuffer *rbuf);
-uint8_t rbuf_empty(t_ringbuffer *rbuf);
-uint8_t rbuf_full(t_ringbuffer *rbuf);
-char read(t_ringbuffer *rbuf);
-uint8_t write(t_ringbuffer *rbuf, char byte);
+
+void init();
+uint8_t rbuf_empty();
+uint8_t rbuf_full();
+char read();
+uint8_t write( char byte);
 
 
-#endif
+
+#endif /* RINGBUFFER_H_ */

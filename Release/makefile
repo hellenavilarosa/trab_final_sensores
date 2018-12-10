@@ -31,56 +31,56 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-sensores_posicao.lss \
+trab_final_sensores.lss \
 
 FLASH_IMAGE += \
-sensores_posicao.hex \
+trab_final_sensores.hex \
 
 EEPROM_IMAGE += \
-sensores_posicao.eep \
+trab_final_sensores.eep \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: sensores_posicao.elf secondary-outputs
+all: trab_final_sensores.elf secondary-outputs
 
 # Tool invocations
-sensores_posicao.elf: $(OBJS) $(USER_OBJS)
+trab_final_sensores.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,sensores_posicao.map -mmcu=atmega328p -o "sensores_posicao.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,trab_final_sensores.map -mmcu=atmega328p -o "trab_final_sensores.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-sensores_posicao.lss: sensores_posicao.elf
+trab_final_sensores.lss: trab_final_sensores.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S sensores_posicao.elf  >"sensores_posicao.lss"
+	-avr-objdump -h -S trab_final_sensores.elf  >"trab_final_sensores.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sensores_posicao.hex: sensores_posicao.elf
+trab_final_sensores.hex: trab_final_sensores.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex sensores_posicao.elf  "sensores_posicao.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex trab_final_sensores.elf  "trab_final_sensores.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sensores_posicao.eep: sensores_posicao.elf
+trab_final_sensores.eep: trab_final_sensores.elf
 	@echo 'Create eeprom image (ihex format)'
-	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex sensores_posicao.elf  "sensores_posicao.eep"
+	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex trab_final_sensores.elf  "trab_final_sensores.eep"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: sensores_posicao.elf
+sizedummy: trab_final_sensores.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega328p sensores_posicao.elf
+	-avr-size --format=avr --mcu=atmega328p trab_final_sensores.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) sensores_posicao.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) trab_final_sensores.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)

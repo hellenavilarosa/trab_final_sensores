@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "lib/avr_usart.h"
+#include "ringbuffer.h"
 
 uint16_t CRC16_2(uint8_t *buf, int len)
 {
@@ -54,8 +55,15 @@ uint8_t modbus(uint8_t dados_s0,uint8_t dados_s1,uint8_t dados_s2,uint8_t dados_
 		USART_tx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
 
 	//esperando resposta (sempre que termina de enviar ele espera a resposta, resposta por interrupção)
-	for (i=0; i < 8; i++)
-		USART_rx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
+
+	for (i=0; i < 8; i++){
+		if(rbuf_empty()!=1){// esta cheio
+			if(pkg_sensores[i]!=read()){// se o que ta no buffer for diferente do que esta lendo
+
+			}
+		}
+	}
+		//USART_rx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
 
 	_delay_ms(1000);
 

@@ -10,6 +10,7 @@
 #include <avr/interrupt.h>
 #include "avr_usart.h"
 #include "bits.h"
+#include "../ringbuffer.h"
 
 
 static int usart_putchar(char c, FILE *fp);
@@ -69,8 +70,7 @@ static int usart_putchar(char c, FILE *fp){
 
 
 ISR(USART_RX_vect){
-
-
+	write(UDR0);
 
 }
 

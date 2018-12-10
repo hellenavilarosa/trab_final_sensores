@@ -3,47 +3,55 @@
 #include <stdio.h>
 #include "ringbuffer.h"
 
-#define MAX_SIZE 16
-typedef struct ringbuffer {
-	int size;
-	int rd;
-	int wr;
-char buf[MAX_SIZE];
+
+typedef struct ringbuffer{
+	uint8_t size;
+	uint8_t rd;
+	uint8_t wr;
+char buf[16];
 } t_ringbuffer;
 
-void init(t_ringbuffer * rbuf){
-	rbuf->size = 0;
-	rbuf->rd = 0;
-	rbuf->wr = 0;
+t_ringbuffer  rbuf;
+
+void init(){
+	rbuf.size=0;
+	rbuf.rd = 0;
+	rbuf.wr = 0;
 }
 
-uint8_t rbuf_empty(t_ringbuffer * rbuf){
-	if (rbuf->size == 0) {
+uint8_t rbuf_empty(){
+
+
+	if ((rbuf.size) == 0){
 		return 1;
 	} else {
 		return 0;
 	}
 }
-uint8_t rbuf_full(t_ringbuffer * rbuf){
-	if (rbuf->size == MAX_SIZE)
+uint8_t rbuf_full(){
+
+	if (rbuf.size == 16)
 		return 1;
 	else
 		return 0;
 }
-char read(t_ringbuffer * rbuf){
+
+char read(){
 	char tmp = 0;
-	if(!rbuf_empty(rbuf)){
-		rbuf->size--;
-		tmp = rbuf->buf[rbuf->rd];
-		rbuf->rd = (rbuf->rd + 1) % MAX_SIZE;
+
+	if(! rbuf_empty(rbuf)){
+		rbuf.size--;
+		tmp = rbuf.buf[rbuf.rd];
+		rbuf.rd = (rbuf.rd + 1) % 16;
 	}
 	return tmp;
 }
-uint8_t write(t_ringbuffer * rbuf, char byte){
-	if(!rbuf_full(rbuf)){
-		rbuf->size++;
-		rbuf->buf[rbuf->wr] = byte;
-		rbuf->wr = (rbuf->wr + 1) % MAX_SIZE;
+uint8_t write( char byte){
+
+	if(!rbuf_full()){
+		rbuf.size++;
+		rbuf.buf[rbuf.wr] = byte;
+		rbuf.wr = (rbuf.wr + 1) % 16;
 		return 1;
 	}
 	return 0;
