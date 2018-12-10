@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../main.c \
+../modbus.c \
 ../sensores.c 
 
 OBJS += \
 ./main.o \
+./modbus.o \
 ./sensores.o 
 
 C_DEPS += \
 ./main.d \
+./modbus.d \
 ./sensores.d 
 
 
