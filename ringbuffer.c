@@ -1,3 +1,8 @@
+#include <stdint.h>
+#include <avr/io.h>
+#include <stdio.h>
+#include "ringbuffer.h"
+
 #define MAX_SIZE 16
 typedef struct ringbuffer {
 	int size;
@@ -5,19 +10,21 @@ typedef struct ringbuffer {
 	int wr;
 char buf[MAX_SIZE];
 } t_ringbuffer;
+
 void init(t_ringbuffer * rbuf){
 	rbuf->size = 0;
 	rbuf->rd = 0;
 	rbuf->wr = 0;
 }
-bool rbuf_empty(t_ringbuffer * rbuf){
+
+uint8_t rbuf_empty(t_ringbuffer * rbuf){
 	if (rbuf->size == 0) {
 		return 1;
 	} else {
 		return 0;
 	}
 }
-bool rbuf_full(t_ringbuffer * rbuf){
+uint8_t rbuf_full(t_ringbuffer * rbuf){
 	if (rbuf->size == MAX_SIZE)
 		return 1;
 	else
@@ -32,7 +39,7 @@ char read(t_ringbuffer * rbuf){
 	}
 	return tmp;
 }
-bool write(t_ringbuffer * rbuf, char byte){
+uint8_t write(t_ringbuffer * rbuf, char byte){
 	if(!rbuf_full(rbuf)){
 		rbuf->size++;
 		rbuf->buf[rbuf->wr] = byte;

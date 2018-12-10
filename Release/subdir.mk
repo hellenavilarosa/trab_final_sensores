@@ -6,16 +6,19 @@
 C_SRCS += \
 ../main.c \
 ../modbus.c \
+../ringbuffer.c \
 ../sensores.c 
 
 OBJS += \
 ./main.o \
 ./modbus.o \
+./ringbuffer.o \
 ./sensores.o 
 
 C_DEPS += \
 ./main.d \
 ./modbus.d \
+./ringbuffer.d \
 ./sensores.d 
 
 

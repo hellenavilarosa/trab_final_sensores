@@ -11,6 +11,7 @@
 #include "avr_usart.h"
 #include "bits.h"
 
+
 static int usart_putchar(char c, FILE *fp);
 
 /* Stream init for printf  */

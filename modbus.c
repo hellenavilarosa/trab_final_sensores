@@ -121,15 +121,5 @@ uint8_t modbus(uint8_t dados_s0,uint8_t dados_s1,uint8_t dados_s2,uint8_t dados_
 
 	_delay_ms(1000);
 
-	_delay_ms(1000);
-
-
-		//fprintf(,"%d   %d   %d", rx_pkg[5], rx_pkg[7], rx_pkg[9]);
-		//cmd_LCD(0xc0,0);
-		//fprintf(,"%d", rx_pkg[11]);
-
-		//cmd_LCD(0x80,0);
-
-
 	return 0;
 }

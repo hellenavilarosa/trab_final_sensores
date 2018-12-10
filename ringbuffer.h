@@ -1,12 +1,15 @@
-#ifndef _SENSORES_H
-#define _SENSORES_H
+#ifndef _RINGBUFFER_H
+#define _RINGBUFFER_H
 
 #include <stdint.h>
 #include <avr/io.h>
 #include <stdio.h>
 
-void sensor_init();
-uint8_t get_sensor(uint8_t n_sensor);
+void init(t_ringbuffer *rbuf);
+uint8_t rbuf_empty(t_ringbuffer *rbuf);
+uint8_t rbuf_full(t_ringbuffer *rbuf);
+char read(t_ringbuffer *rbuf);
+uint8_t write(t_ringbuffer *rbuf, char byte);
 
 
 #endif
