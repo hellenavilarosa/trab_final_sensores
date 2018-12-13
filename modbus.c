@@ -7,9 +7,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdint.h>
-
+#include "lib/avr_gpio.h"
 #include "lib/avr_usart.h"
 #include "ringbuffer.h"
+#include "lib/bits.h"
+
 
 uint16_t CRC16_2(uint8_t *buf, int len)
 {
@@ -33,101 +35,54 @@ uint16_t CRC16_2(uint8_t *buf, int len)
   return crc;
 }
 
-uint8_t modbus(uint8_t dados_s0,uint8_t dados_s1,uint8_t dados_s2,uint8_t dados_s3){
-	uint8_t pkg_sensores[8] = {0x15, 0x01, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00}; //end, R/W, reg, dados, crc
+uint8_t is_pkg_ready(uint8_t size){
+	if (ring_buffer_size() == size)
+		return 1;
+	else
+		return 0;
+}
 
-	uint8_t rx_pkg_sensores[16]; // resposta do modbus
+
+uint8_t modbus_write(uint8_t dados, uint8_t endereco){
+	uint8_t pkg_sensores[8] = {0x15, 0x01, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00}; //end, R/W, reg, dados, crc
 	uint8_t i;
 	uint16_t crc;
 
+	CLR_BIT(GPIO_B->PORT, PB5);
 //PRIMEIRO PACOTE (s0)
 	//big_endian
-	pkg_sensores[3] =0x05;
-	pkg_sensores[4] = dados_s0 >> 8;
-	pkg_sensores[5] = dados_s0 & 0xff;
+	pkg_sensores[3] =endereco;
+	pkg_sensores[4] = dados >> 8;
+	pkg_sensores[5] = dados & 0xff;
 
 	crc = CRC16_2(pkg_sensores,6);
 
 	pkg_sensores[6] = crc >> 8;
 	pkg_sensores[7] = crc & 0xff;
 
-	for (i=0; i < 8; i++)
+	for (i=0; i < 8; i++){
 		USART_tx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
+	}
 
-	//esperando resposta (sempre que termina de enviar ele espera a resposta, resposta por interrupção)
+	return 1;
+}
+
+uint8_t modbus_receive(){
+
+	uint8_t i,pkg;
+
+	if (is_pkg_ready(8)){ //se for vazio
+		return 1;
+	}
 
 	for (i=0; i < 8; i++){
-		if(rbuf_empty()!=1){// esta cheio
-			if(pkg_sensores[i]!=read()){// se o que ta no buffer for diferente do que esta lendo
-
+		pkg = read();
+		if (i == 1){
+			if (pkg == 0x01){
+				return 0;
 			}
 		}
 	}
-		//USART_rx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
 
-	_delay_ms(1000);
-
-
-//SEGUNDO PACOTE (s1)
-	//big_endian
-	pkg_sensores[3] =0x06;
-	pkg_sensores[4] = dados_s1 >> 8;
-	pkg_sensores[5] = dados_s1 & 0xff;
-
-	crc = CRC16_2(pkg_sensores,6);
-
-	pkg_sensores[6] = crc >> 8;
-	pkg_sensores[7] = crc & 0xff;
-
-	for (i=0; i < 8; i++)
-		USART_tx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
-
-	//esperando resposta (sempre que termina de enviar ele espera a resposta, resposta por interrupção)
-	for (i=0; i < 8; i++)
-		USART_rx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
-
-	_delay_ms(1000);
-
-//TERCEIRO PACOTE (s2)
-	//big_endian
-	pkg_sensores[3] =0x07;
-	pkg_sensores[4] = dados_s2 >> 8;
-	pkg_sensores[5] = dados_s2 & 0xff;
-
-	crc = CRC16_2(pkg_sensores,6);
-
-	pkg_sensores[6] = crc >> 8;
-	pkg_sensores[7] = crc & 0xff;
-
-	for (i=0; i < 8; i++)
-		USART_tx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
-
-	//esperando resposta (sempre que termina de enviar ele espera a resposta, resposta por interrupção)
-	for (i=0; i < 8; i++)
-		USART_rx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
-
-	_delay_ms(1000);
-
-//QUARTO PACOTE (s3)
-	//big_endian
-	//big_endian
-	pkg_sensores[3] =0x08;
-	pkg_sensores[4] = dados_s3 >> 8;
-	pkg_sensores[5] = dados_s3 & 0xff;
-
-	crc = CRC16_2(pkg_sensores,6);
-
-	pkg_sensores[6] = crc >> 8;
-	pkg_sensores[7] = crc & 0xff;
-
-	for (i=0; i < 8; i++)
-		USART_tx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
-
-	//esperando resposta (sempre que termina de enviar ele espera a resposta, resposta por interrupção)
-	for (i=0; i < 8; i++)
-		USART_rx(pkg_sensores[i]); //enviando para a usart todo o pacote s0
-
-	_delay_ms(1000);
-
-	return 0;
+	return 2;
 }

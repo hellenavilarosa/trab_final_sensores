@@ -41,7 +41,7 @@ ISR(PCINT1_vect){
 		sensores[3] = 1;
 	}
 	else{
-			sensores[3] = 0;
+		sensores[3] = 0;
 	}
 
 }
